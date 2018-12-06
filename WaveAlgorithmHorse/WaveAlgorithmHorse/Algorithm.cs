@@ -20,22 +20,30 @@ namespace WaveAlgorithmHorse
     public static class Algorithm
     {
         public static int[,] matrix = new int[8,8];
-        public static int startX { get; set; }
-        public static int startY { get; set; }
         public static int[] Xs = { -2, -1, 1, 2, 2, 1, -1, -2 };
         public static int[] Ys = { 1, 2, 2, 1, -1, -2, -2, -1 };
+
         public static int Level { get; set; }
-        public static void Init(int X,int Y)
+        public static bool Busy { get; set; }
+
+        public static void Clear()
         {
-            for(int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
                     matrix[i, j] = -1;
                 }
             }
-            matrix[X - 1, Y - 1] = 0;
-            Level = 1;
+            Busy = false;
+        }
+
+        public static void Init(int X,int Y)
+        {
+            Clear();
+            Busy = true;
+            matrix[X, Y] = 0;
+            Level = 0;
         }
 
         public static List<Point> NextPointsFrom(int X,int Y)
@@ -55,7 +63,7 @@ namespace WaveAlgorithmHorse
             return result;
         }
 
-        public static bool MoveToNextLevel(Graphics grafics)
+        public static bool MoveToNextLevel(ref Graphics grafics)
         {
             List<Point> points = new List<Point>();
             for (int i = 0; i < 8; i++)
@@ -64,7 +72,7 @@ namespace WaveAlgorithmHorse
                 {
                     if (matrix[i, j] == Level)
                     {
-                        points.Concat<Point>(NextPointsFrom(i, j));
+                        points.AddRange(NextPointsFrom(i, j));
                     }
                 }
             }

@@ -15,19 +15,21 @@ namespace WaveAlgorithmHorse
 
         private static void DrawSquare(Graphics graphics, float X, float Y, Color color)
         {
-            Pen pen = new Pen(color);
-            graphics.DrawRectangle(pen, X, Y, SquareSide, SquareSide);
+            Brush brush = new SolidBrush(color);
+                      
+            graphics.FillRectangle(brush, X, Y, SquareSide, SquareSide);
         }
         public static void CreateTable(Graphics grafics)
         {
             grafics.Clear(SystemColors.Control);
-            float dif = ((float)grafics.DpiX)*0.1f;
-            float width = grafics.DpiX - 2*dif;
+            float dif = 50;
+            Width = 500;
             float X = dif;
             float Y = dif;
             SquareSide = dif;
             for (int i = 0; i < 8; i++)
             {
+                X = dif;
                 for (int j = 0; j < 8; j++)
                 {
                     Color color = (i + j) % 2 == 0 ? Color.Gray : Color.White;
